@@ -95,5 +95,5 @@ Synth::Synth() :
       exit(1);
    }
 }
-//dummy change
-//Another dummy change
+//This is WTF???
+//OK so this is a test of git idk
