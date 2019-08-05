@@ -26,9 +26,13 @@ class Synth
      */
     Synth();
     
+    /**
+     * Start makin those sounds.
+     */
+    void playAudio();
 
     /**
-     * our pd engine
+     * our pd engine. Maybe not the best way to do this?
      */
 	static PdBase pd;
 
