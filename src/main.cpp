@@ -12,7 +12,7 @@
 using namespace std;
 using namespace cv;
 
-const int fps = 20;
+const int fps = 60;
 
 const int LOW_CANNY_THRESHOLD = 30; //sensitivity of edge detector, can be like 10-100, around 30 or 40 was seeming to work best
 const int LOW_SAT_THRESHOLD = 50; //threshold of image saturation (GRAY) at which hue detection will stop/start (S and V can range 0-255)
@@ -22,8 +22,8 @@ const int HI_VAL_THRESHOLD = 190; //threshold of image value (WHITE when sat. is
 //gonna reuse these data structures in each loop
 vector<vector<Point>> contours;
 vector<Mat> hsv_planes;
-Mat camimage, edgy, downsampledim, output, edgydownsamp, smallgray, hsvsmall,
-    val_image, hue_image, sat_image, lastcamimage;
+Mat camimage, edgy, downsampledim, output, edgydownsamp, currentsmallgrayim, hsvsmall,
+    val_image, hue_image, sat_image, lastsmallgrayim;
 
 vector<vector<Point>> nocolor_rect(1, vector<Point>(4));
 vector<vector<Point>> hue_rect1(1, vector<Point>(4)); //dominant hue
@@ -84,6 +84,8 @@ int main(int argc, char const *argv[])
     
     bool firstloop = true;
 
+    Mat bigcurrentgray, lastbiggray;
+
     //main loop for doing image processing
     while (vid.read(camimage))
     {   
@@ -93,6 +95,9 @@ int main(int argc, char const *argv[])
         }
 
         //PREPARE MATRICES
+        //@@@test
+        cvtColor(camimage, bigcurrentgray, COLOR_BGR2GRAY);
+
         output = camimage.clone();
         
         downSampleImage(camimage, downsampledim); //make it small for lower cpu load
@@ -105,14 +110,14 @@ int main(int argc, char const *argv[])
         val_image = hsv_planes[2];
 
         edgy = downsampledim.clone();
-        cvtColor(edgy, smallgray, COLOR_BGR2GRAY);
+        cvtColor(edgy, currentsmallgrayim, COLOR_BGR2GRAY);
 
 
         //###############################################################
         //TASK 1: Find and send number of contours
         
         //do canny edge detection
-        GaussianBlur(smallgray, edgy, Size(7,7), 1.5, 1.5);
+        GaussianBlur(currentsmallgrayim, edgy, Size(7,7), 1.5, 1.5);
         Canny(edgy, edgy, LOW_CANNY_THRESHOLD, LOW_CANNY_THRESHOLD * 2.5 /* the ratio */);
 
         //find contours from edge detected image
@@ -191,41 +196,12 @@ int main(int argc, char const *argv[])
 
         //#################################################################
         //TASK 3: Motion detection
-        // Example. Estimation of fundamental matrix using the RANSAC algorithm
-        // int point_count = 100;
-        // vector<Point2f> points_currentim(point_count);
-        // vector<Point2f> points_lastim(point_count);
 
-        // // initialize the points here ... */
-
-        // Mat desc1, desc2;
-
-        // // detect keypoints and extract ORB descriptors
-        // Ptr orb = ORB::create(50);
-        // orb->detectAndCompute(img1, noArray(), points_currentim, desc1);
-
-        // orb->detectAndCompute(img2, noArray(), points_lastim, desc2);
-
-        // // matching descriptors
-
-        // Ptr matcher = DescriptorMatcher::create("BruteForce-Hamming");
-
-        // vector matches;
-
-        // matcher->match(desc1, desc2, matches);
-
-        Mat bgr;
+        Mat bgr = downsampledim.clone();
         if(!firstloop)
         {
-            // double focal = 1.0;
-            // cv::Point2d pp(camimage.rows / 2, camimage.cols / 2);
-            // Mat E, R, t, mask;
-
-            // E = findEssentialMat(points1, points2, focal, pp, RANSAC, 0.999, 1.0, mask);
-            // recoverPose(E, points1, points2, R, t, focal, pp, mask);
-
-            Mat flow(lastcamimage.size(), CV_32FC2);
-            calcOpticalFlowFarneback(lastcamimage, smallgray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
+            Mat flow;
+            calcOpticalFlowFarneback(lastsmallgrayim, currentsmallgrayim, flow, 0.5, 4, 17, 3, 5, 1.1);
             // visualization
             Mat flow_parts[2];
             split(flow, flow_parts);
@@ -241,6 +217,8 @@ int main(int argc, char const *argv[])
             merge(_hsv, 3, hsv);
             hsv.convertTo(hsv8, CV_8U, 255.0);
             cvtColor(hsv8, bgr, COLOR_HSV2BGR);
+            
+            // add(bgr, downsampledim, bgr);
             //This optical flow stuff comes from https://docs.opencv.org/3.4/d4/dee/tutorial_optical_flow.html
         }
 
@@ -257,9 +235,10 @@ int main(int argc, char const *argv[])
             resize(bgr, bgr, Size(), 10, 10, INTER_NEAREST);
             imshow(windowname, bgr);
         }
-        // imshow(windowname, output);
         
-        lastcamimage = smallgray.clone();
+        lastsmallgrayim = currentsmallgrayim.clone();
+        //@@@test
+        lastbiggray = bigcurrentgray.clone();
 
         if(firstloop)
         {
