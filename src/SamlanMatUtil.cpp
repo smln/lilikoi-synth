@@ -1,5 +1,139 @@
 #include "SamlanMatUtil.h"
 
+tuple<vector<int>, bool, bool, bool> getDominantColorsInImage(Mat& downsampledim)
+{
+    vector<int> max_hues;
+    bool is_mostly_black = false, is_mostly_gray = false, is_mostly_white = false; //return values
+
+    const int LOW_SAT_THRESHOLD = 50; //threshold of image saturation (GRAY) at which hue detection will stop/start (S and V can range 0-255)
+    const int LOW_VAL_THRESHOLD = 80; //threshold of image value(BLACK) at which hue detection will stop/start
+    const int HI_VAL_THRESHOLD = 190; //threshold of image value (WHITE when sat. is low) at which hue detection will stop/start
+
+    //separate out different hsv channels
+    Mat hsvsmall;
+    Mat hsv_planes[3];
+    cvtColor(downsampledim, hsvsmall, COLOR_BGR2HSV );
+    split(hsvsmall, hsv_planes);
+    Mat hue_image = hsv_planes[0]; //CV_8U1 type. Hues of current downsampled image
+    Mat sat_image = hsv_planes[1]; //HSV Saturation of current downsampled image
+    Mat val_image = hsv_planes[2]; //HSV Value of current downsampled image
+
+    // cout << "Image value: " << mean(val_image)[0] << endl;
+    // cout << "Image saturation: " << mean(sat_image)[0] << endl;
+
+    float valuemean = mean(val_image)[0];
+    float satmean = mean(sat_image)[0];
+
+    if(valuemean < LOW_VAL_THRESHOLD)
+    {
+        //image is black
+        is_mostly_black = true;
+    }
+    else if(satmean < LOW_SAT_THRESHOLD)
+    {
+        if(valuemean > HI_VAL_THRESHOLD)
+        {
+            //image is white
+            is_mostly_white = true;
+        }
+        else
+        {
+            //image is gray
+            is_mostly_gray = true;
+        }
+        
+    }
+    else
+    {
+        //color is significant so we send 3 dominant hues
+        max_hues = getDominantHues(hue_image);
+    }
+
+    return {max_hues, is_mostly_black, is_mostly_white, is_mostly_gray};
+}
+
+
+tuple<float, bool, bool, bool, bool, bool> getSceneMovementFromFlow
+        (OpticalFlowMat & optical_flow, float scene_movement_threshold, float flow_sensitivity)
+{
+    //we'll tuple these up at the end and return them
+    float scene_movement_percentage = -1;
+    bool camera_moved_down = false, camera_moved_up = false, camera_moved_left = false, camera_moved_right = false, camera_spinning = false;
+    
+    //generate a histogram for the optical flow
+    Mat xflow_hist, yflow_hist, flow_hist; //one bin for negative values, one for near zero values, one for positive values
+    int xchannels[] = {0}; //compute x flow histogram from 0th channel
+    int ychannels[] = {1}; //compute y flow histogram from 1st channel
+    const int flowhistbins[1] = {3}; 
+     //one bin for negative values, one for near zero values, one for positive values
+    float histrange[] = {-(std::numeric_limits<float>::max()), -optical_flow.getFastMovementSize()/flow_sensitivity, 
+                            optical_flow.getFastMovementSize()/flow_sensitivity, std::numeric_limits<float>::max()};
+    const float *histranges[] = { histrange }; //cpp syntax is weird
+    calcHist(&optical_flow, 1, xchannels, Mat(), xflow_hist, 1, flowhistbins, histranges, false);
+    calcHist(&optical_flow, 1, ychannels, Mat(), yflow_hist, 1, flowhistbins, histranges, false);
+
+    //for readability
+    float y_down_flow_amount = yflow_hist.at<float>(0, 0);
+    float y_no_flow_amount = yflow_hist.at<float>(1, 0);
+    float y_up_flow_amount = yflow_hist.at<float>(2, 0);
+    float x_right_flow_amount = xflow_hist.at<float>(0, 0);
+    float x_no_flow_amount = xflow_hist.at<float>(1, 0);
+    float x_left_flow_amount = xflow_hist.at<float>(2, 0);
+
+    float totalxmovement = x_left_flow_amount + x_right_flow_amount;
+    float totalymovement = y_down_flow_amount + y_up_flow_amount;
+    float totalpixels = totalxmovement + x_no_flow_amount; //total pixels for which flow was calculated (for one channel)
+    float totalxmovementpercent = totalxmovement / totalpixels;
+    float totalymovementpercent = totalymovement / totalpixels;
+    if(totalxmovementpercent < scene_movement_threshold && totalymovementpercent < scene_movement_threshold) //camera is not moving but objects in scene might be
+    {
+        //this ranges from 0 to 1
+        scene_movement_percentage = (totalxmovement + totalymovement) / (totalpixels*2);
+        // cout << "scene movement: " << totalxmovementpercent + totalymovementpercent << endl;
+    }
+    else //camera is moving OR there's some chaotic thing going on in the image
+    {
+        //@@@TODO there's some stuff I can tweak in these equations to possibly make motion detection work better
+        //detect vertical movement
+        if(y_down_flow_amount > y_up_flow_amount*4 && y_down_flow_amount > y_no_flow_amount)
+        {
+            camera_moved_down = true;
+            // cout << "camera moving down" << endl;
+        }
+        else if(y_up_flow_amount > y_down_flow_amount*4 && y_up_flow_amount > y_no_flow_amount)
+        {
+            camera_moved_up = true;
+            // cout <<"camera moving up" << endl;
+        }
+        
+        //detect horizontal movement
+        if(x_left_flow_amount > x_right_flow_amount*4 && x_left_flow_amount > x_no_flow_amount)
+        {
+            camera_moved_left = true;
+            // cout << "camera moving left" << endl;
+        }
+        else if(x_right_flow_amount > x_left_flow_amount*4 && x_right_flow_amount > x_no_flow_amount)
+        {
+            camera_moved_right = true;
+            // cout <<"camera moving right" << endl;
+        }
+
+        //detect camera spin. Note that this might also denote weird chaotic things happening in the image.
+        if( (std::abs(x_left_flow_amount - x_right_flow_amount) < totalpixels/3 && totalxmovement > x_no_flow_amount*2)
+            || (std::abs(y_up_flow_amount - y_down_flow_amount) < totalpixels/3 && totalymovement > y_no_flow_amount*2) )
+        {
+            camera_spinning = true;
+            // cout << "camera spinning" << endl;
+        }
+    }
+
+    return {scene_movement_percentage, camera_moved_down, camera_moved_up, 
+                    camera_moved_left, camera_moved_right, camera_spinning};
+
+}
+
+
+
 void correctGamma( Mat& img, double gamma )
 {
     double inverse_gamma = 1.0 / gamma;
@@ -54,6 +188,7 @@ void downSampleImage(Mat& from, Mat& to)
 
 vector<int> getDominantHues(Mat hue_image, int huebins)
 {
+    //@@@TODO give weighted score to more saturated pixels
     //now we need to make a histogram of the hue channel matrix
     int channels[] = {0}; //we just want the hue channel which is 1st in hsv
     float hrange[] = {0, 180}; //hue ranges from 0 to 180
