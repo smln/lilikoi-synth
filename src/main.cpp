@@ -131,6 +131,7 @@ int main(int argc, char const *argv[])
         //TASK 3: Motion detection
 
         OpticalFlowMat optical_flow;
+        // cout << optical_flow << endl;
 
         //calculate optical flow
         calcOpticalFlowFarneback(lastsmallgrayim, currentsmallgrayim, optical_flow, 0.5, 1, 18, 3, 5, 1.1, 0);
