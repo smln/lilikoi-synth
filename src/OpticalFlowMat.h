@@ -13,6 +13,7 @@ class OpticalFlowMat : public cv::Mat
     public:
     /**
      * Variadic template constructor. Passes arguments on to Mat constructor.
+     * Template can't go in .cpp files I guess.
      */
     template<typename ...Args> OpticalFlowMat(Args&&... args) 
     :Mat(std::forward<Args>(args)...) 

@@ -56,10 +56,12 @@ void downSampleImage(Mat& from, Mat& to);
 /**
  * Get the dominant hue in a photo
  * @param hue_image Should be hue matrix
+ * @param sat_threshold If pixels in the image have saturation < sat_threshold they will be pruned
+ * @param val_threshold If pixels in the image have value < val_threshold they will be pruned
  * @param huebins should be > 3
  * @return Dominant 3 hues in the image as ints in a vector range 0-180
  */
-vector<int> getDominantHues(Mat hue_image, int huebins = 15);
+vector<int> getDominantHues(Mat& hue_image, const int sat_threshold, const int val_threshold, int huebins = 15);
 
 /**
  * Get the edginess of an image

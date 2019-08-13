@@ -38,7 +38,7 @@ $(TARGET): $(OBJS)
 	$(CXX) -o $(TARGET) $(OBJS) $(LDLIBS) $(AUDIO_API)
 	#$@ means the target (in this case, $(TARGET) )
 
-$(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT) #$(OBJS): $(SRCS) #maybe change to $(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
+$(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT) $(SRC_PATH)/%.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:

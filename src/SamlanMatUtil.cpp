@@ -46,7 +46,7 @@ tuple<vector<int>, bool, bool, bool> getDominantColorsInImage(Mat& downsampledim
     else
     {
         //color is significant so we send 3 dominant hues
-        max_hues = getDominantHues(hue_image);
+        max_hues = getDominantHues(hsvsmall, LOW_SAT_THRESHOLD, LOW_VAL_THRESHOLD, 18);
     }
 
     return {max_hues, is_mostly_black, is_mostly_white, is_mostly_gray};
@@ -157,45 +157,36 @@ void downSampleImage(Mat& from, Mat& to)
     int largestdimension = from.rows > from.cols ? from.rows : from.cols;
     float downsamplingfactor = 1.0 / ((largestdimension / MAX_DSAMP_SIZE) + 1);
     resize(from, to, Size(), downsamplingfactor, downsamplingfactor, INTER_NEAREST);
-
-    // if(downsamplingfactor > 0)
-    // {
-    //     downsamplingfactor = 2 << downsamplingfactor;
-    //     to = from(Range(0, from.rows/downsamplingfactor), Range(0, from.cols/downsamplingfactor));
-    //     to = to.clone();
-
-    //     for(int x = 0; x < from.cols; x += downsamplingfactor)
-    //     {
-    //         for(int y = 0; y < from.rows; y += downsamplingfactor)
-    //         {
-    //             // cout << x << y << endl;
-    //             Vec3b impixel = from.at<Vec3b>(y, x);
-    //             Vec3b &downpixel = to.at<Vec3b>(y/downsamplingfactor, x/downsamplingfactor);
-    //             for(int k = 0; k < from.channels(); k++)
-    //             {
-    //                 downpixel.val[k] = impixel.val[k];
-    //             }
-    //         }
-    //     }
-    // }
-    // else
-    // {
-    //     to = from;
-    // }
 }
 
 
 
-vector<int> getDominantHues(Mat hue_image, int huebins)
+vector<int> getDominantHues(Mat& hsv_image, const int sat_threshold, const int val_threshold, int huebins)
 {
-    //@@@TODO give weighted score to more saturated pixels
+    //prune all pixels which don't have significant hue by making a mask, with zeroes indicating unwanted pixels
+    vector<Mat> hsv_split(3);
+    cv::split(hsv_image, hsv_split);
+    Mat hues = hsv_split[0], sats = hsv_split[1], vals = hsv_split[2];
+    Mat hue_mask = Mat::ones(hues.size(), hues.type());
+
+    for(int x = 0; x < hues.cols; x ++)
+    {
+        for(int y = 0; y < hues.rows; y ++)
+        {
+            if(sats.at<uchar>(y, x) < sat_threshold || vals.at<uchar>(y, x) < val_threshold)
+            {
+                hue_mask.at<uchar>(y, x) = 0;
+            }
+        }
+    }
+
     //now we need to make a histogram of the hue channel matrix
     int channels[] = {0}; //we just want the hue channel which is 1st in hsv
     float hrange[] = {0, 180}; //hue ranges from 0 to 180
     const float *ranges[] = { hrange }; //cpp syntax is weird
     int histsize[] = {huebins};
     Mat histogram;
-    calcHist(&hue_image, 1, channels, Mat(), histogram, 1, histsize, ranges );
+    calcHist(&hues, 1, channels, hue_mask, histogram, 1, histsize, ranges );
 
     //now get the max values in the histogram and return the corresponding hues
     vector<int> maxhistvals(3, -1); //will contain histogram values
