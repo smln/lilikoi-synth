@@ -7,7 +7,7 @@ BIN_PATH = bin
 SRCS = $(shell find $(SRC_PATH) -name '*.cpp')
 
 CXX = g++ #c++ compiler to use
-TARGET = $(BIN_PATH)/ReverseVisualizer # name of output executable file
+TARGET = $(BIN_PATH)/Lilikoi # name of output executable file
 
 # Set the object file names, with the source directory stripped
 # from the path, and the build path prepended in its place

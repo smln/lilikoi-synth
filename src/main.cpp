@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
     downSampleImage(camimage, downsampledim);
     cvtColor(downsampledim, lastsmallgrayim, COLOR_BGR2GRAY);
     
-    FancyDisplayCanvas canvas(camimage, "Reverse Visualizer");
+    FancyDisplayCanvas canvas(camimage, "Lilikoi");
 
     bool firstloop = true;
 

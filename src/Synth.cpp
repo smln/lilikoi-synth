@@ -60,7 +60,7 @@ Synth::Synth() :
    parameters.nChannels = 2;
 
    RtAudio::StreamOptions options;
-   options.streamName = "Reverse Visualizer Synth";
+   options.streamName = "Lilikoi";
    options.flags = RTAUDIO_SCHEDULE_REALTIME;
 
 
