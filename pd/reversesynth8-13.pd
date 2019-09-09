@@ -1,0 +1,556 @@
+#N canvas 0 96 1920 984 10;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array waveout 100 float 3;
+#A 0 0.0599633 0.0597806 0.0595893 0.0594749 0.0594904 0.0596561 0.0599649
+0.0603896 0.0608925 0.0614333 0.0619757 0.0624925 0.062967 0.0633928
+0.0637729 0.0635031 0.0585473 0.0483944 0.0370574 0.0287536 0.0253479
+0.0264405 0.0305547 0.0361243 0.0419173 0.0470864 0.0511093 0.0537406
+0.0549796 0.0550263 0.054213 0.0529251 0.0515277 0.0503131 0.0494742
+0.0490994 0.0491857 0.0496616 0.0504148 0.0513187 0.0522553 0.0531304
+0.0538823 0.054483 0.0549339 0.0552589 0.0554949 0.0556832 0.0558623
+0.0560627 0.0563043 0.0565961 0.0569375 0.0573204 0.0577328 0.0581613
+0.0585932 0.0590187 0.0594313 0.059828 0.0602093 0.0605777 0.0609371
+0.0612919 0.0616463 0.0620036 0.0623657 0.0627336 0.0631073 0.0634858
+0.0638679 0.0642521 0.0646371 0.0650219 0.0654056 0.0657882 0.0661695
+0.0665499 0.0669299 0.0673098 0.0676902 0.0680713 0.0684533 0.0688365
+0.0692207 0.0696058 0.0699918 0.0703785 0.0707656 0.0711532 0.0715411
+0.0719294 0.0723179 0.0727068 0.0730961 0.0734858 0.073876 0.0742667
+0.074658 0.0750499;
+#X coords 0 1 100 -1 200 140 1 0 0;
+#X restore 1090 398 graph;
+#X obj 1200 637 tabwrite~ waveout;
+#X obj 1209 601 metro 100;
+#X obj 1209 576 loadbang;
+#X obj 112 64 r contoursfromcpp;
+#X text 27 38 //number of contours in image \, something like 0 - 100
+;
+#X obj 395 68 r imagedarkfromcpp;
+#X text 392 38 //bang if image is black;
+#X obj 565 67 r imagewhitefromcpp;
+#X text 564 41 //bang if image is white;
+#X obj 736 67 r imagegrayfromcpp;
+#X text 744 42 //bang if image is gray;
+#X obj 564 426 r huemaxfromcpp;
+#X text 584 397 //three dominant hues if not gray/white/black. //Values
+range 0-180;
+#X obj 678 428 r huesecondmaxfromcpp;
+#X obj 820 427 r huethirdmaxfromcpp;
+#X obj 926 73 r sceneobjectmovementfromcpp;
+#X obj 1298 63 r cameramovedownfromcpp;
+#X obj 1319 91 r cameramoveupfromcpp;
+#X obj 1340 120 r cameramoveleftfromcpp;
+#X obj 1365 145 r cameramoverightfromcpp;
+#X text 1298 36 //bang signal if camera is moving a certain way;
+#X obj 1386 171 r cameraspinningfromcpp;
+#X obj 1649 89 r cppinitialized;
+#X text 924 38 //movement of scene objects if camera is not moving
+//ranges from 0-1;
+#X text 1631 55 //bang sent when all params have been sent //at least
+once;
+#N canvas 0 96 1920 984 sam_synth 0;
+#X obj 313 497 *~ 0.9;
+#X obj 120 535 expr~ $v1 * (abs($v2) + 0.1);
+#X msg 87 393 set wavein;
+#X obj 537 895 tabwrite wavein;
+#X msg 534 850 \$1 1 \, \$2 2 \, \$3 3 \, \$4 4 \, \$5 5 \, \$6 6 \,
+\$7 7 \, \$8 8 \, \$9 9 \, \$10 10 \, \$11 11 \, \$12 12 \, \$13 13
+\, \$14 14 \, \$15 15 \, \$16 16;
+#N canvas 156 145 1440 720 randomwaveform 0;
+#X obj 71 238 random 128;
+#X obj 71 261 - 64;
+#X obj 71 286 / 64;
+#X obj 145 238 random 128;
+#X obj 145 261 - 64;
+#X obj 145 286 / 64;
+#X obj 226 239 random 128;
+#X obj 226 262 - 64;
+#X obj 226 287 / 64;
+#X obj 303 238 random 128;
+#X obj 303 261 - 64;
+#X obj 303 286 / 64;
+#X obj 600 88 inlet bang;
+#X obj 553 517 outlet waveform_list;
+#X obj 385 240 random 128;
+#X obj 385 263 - 64;
+#X obj 385 288 / 64;
+#X obj 459 240 random 128;
+#X obj 459 263 - 64;
+#X obj 459 288 / 64;
+#X obj 540 241 random 128;
+#X obj 540 264 - 64;
+#X obj 540 289 / 64;
+#X obj 617 240 random 128;
+#X obj 617 263 - 64;
+#X obj 617 288 / 64;
+#X obj 709 242 random 128;
+#X obj 709 265 - 64;
+#X obj 709 290 / 64;
+#X obj 783 242 random 128;
+#X obj 783 265 - 64;
+#X obj 783 294 / 64;
+#X obj 864 243 random 128;
+#X obj 864 266 - 64;
+#X obj 864 291 / 64;
+#X obj 941 242 random 128;
+#X obj 941 265 - 64;
+#X obj 941 290 / 64;
+#X obj 1023 244 random 128;
+#X obj 1023 267 - 64;
+#X obj 1023 292 / 64;
+#X obj 1097 244 random 128;
+#X obj 1097 267 - 64;
+#X obj 1097 295 / 64;
+#X obj 1178 245 random 128;
+#X obj 1178 268 - 64;
+#X obj 1178 293 / 64;
+#X obj 1255 244 random 128;
+#X obj 1255 267 - 64;
+#X obj 1255 292 / 64;
+#X obj 522 438 pack f f f f f f f f f f f f f f f f;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 50 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 50 1;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 50 2;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 50 3;
+#X connect 12 0 0 0;
+#X connect 12 0 3 0;
+#X connect 12 0 6 0;
+#X connect 12 0 9 0;
+#X connect 12 0 14 0;
+#X connect 12 0 17 0;
+#X connect 12 0 20 0;
+#X connect 12 0 23 0;
+#X connect 12 0 26 0;
+#X connect 12 0 29 0;
+#X connect 12 0 32 0;
+#X connect 12 0 35 0;
+#X connect 12 0 38 0;
+#X connect 12 0 41 0;
+#X connect 12 0 44 0;
+#X connect 12 0 47 0;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X connect 16 0 50 4;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 19 0 50 5;
+#X connect 20 0 21 0;
+#X connect 21 0 22 0;
+#X connect 22 0 50 6;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 50 7;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;
+#X connect 28 0 50 8;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 50 9;
+#X connect 32 0 33 0;
+#X connect 33 0 34 0;
+#X connect 34 0 50 10;
+#X connect 35 0 36 0;
+#X connect 36 0 37 0;
+#X connect 37 0 50 11;
+#X connect 38 0 39 0;
+#X connect 39 0 40 0;
+#X connect 40 0 50 12;
+#X connect 41 0 42 0;
+#X connect 42 0 43 0;
+#X connect 43 0 50 13;
+#X connect 44 0 45 0;
+#X connect 45 0 46 0;
+#X connect 46 0 50 14;
+#X connect 47 0 48 0;
+#X connect 48 0 49 0;
+#X connect 49 0 50 15;
+#X connect 50 0 13 0;
+#X restore 661 796 pd randomwaveform;
+#X obj 587 686 loadbang;
+#X obj 768 701 r \$0-wavechangetime;
+#X obj 87 422 tabosc4~;
+#X msg 161 393 set sswave;
+#X text 1236 100 //waveform flux time;
+#X obj 1193 301 s \$0-wavechangetime;
+#X obj 1190 112 vsl 15 128 1000 10000 0 0 empty empty empty 0 -9 0
+10 -262144 -1 -1 1129 1;
+#X obj 1133 42 loadbang;
+#X obj 731 106 vsl 15 128 300 575 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 4618 1;
+#X obj 719 38 loadbang;
+#X obj 745 364 s \$0-frequency;
+#X text 790 105 //oscillator frequency;
+#X obj 10 344 r \$0-frequency;
+#X obj 744 330 line;
+#X obj 742 298 pack f 100;
+#X obj 162 424 tabosc4~;
+#X obj 111 365 loadbang;
+#X obj 387 111 vsl 15 128 0.1 20 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 574 1;
+#X obj 423 41 loadbang;
+#X obj 393 350 s \$0-lfofreq;
+#X text 435 102 //LFO Frequency;
+#X msg 421 65 1;
+#X obj 312 452 r \$0-lfofreq;
+#X obj 312 474 osc~;
+#X obj 88 92 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 6350 1;
+#X obj 36 28 loadbang;
+#X obj 93 301 s \$0-dirtymix;
+#X obj 101 448 r \$0-dirtymix;
+#X obj 86 477 *~;
+#X obj 220 429 r \$0-dirtymix;
+#X obj 220 455 expr 1 - $f1;
+#X obj 161 478 *~;
+#X obj 92 276 line;
+#X floatatom 1122 298 5 0 0 0 - - -, f 5;
+#X floatatom 692 321 5 0 0 0 - - -, f 5;
+#X obj 747 262 expr (pow( (($f1 - 20) / 555) \, 3) * 555) + 20;
+#X obj 390 249 expr (pow( (($f1 - 0.1) / 19.9) \, 3) * 19.9) + 0.1
+;
+#X text 132 103 //Dirty;
+#X text 136 218 //Clean;
+#X obj 463 581 osc~;
+#X obj 463 553 r \$0-frequency;
+#X obj 306 607 expr~ ((1 - abs($v1)) * $v2) * 0.05;
+#X msg 896 844 \; sswave sinesum 512 \$1 \$2 \$3 \$4 \; sswave normalize
+1;
+#X obj 1193 268 expr (pow( (($f1 - 50) / 9800) \, 2) * 9800) + 50;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array wavein 19 float 3;
+#A 0 -1 0.296875 -0.875 -0.3125 -0.1875 -0.078125 -0.953125 -0.59375
+-0.046875 -0.828125 0.03125 0.515625 -0.8125 0.5625 -0.078125 -0.578125
+0.296875 0.471423 -0.800001;
+#X coords 0 1 19 -1 200 140 1 0 0;
+#X restore 1065 406 graph;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sswave 515 float 3;
+#A 0 0.0354233 0 -0.0354233 -0.0708005 -0.106086 -0.141233 -0.176196
+-0.210931 -0.245392 -0.279534 -0.313314 -0.346688 -0.379613 -0.412048
+-0.443951 -0.475282 -0.506001 -0.536071 -0.565453 -0.594111 -0.622011
+-0.649118 -0.6754 -0.700826 -0.725365 -0.74899 -0.771673 -0.793388
+-0.814112 -0.833822 -0.852497 -0.870118 -0.886668 -0.90213 -0.91649
+-0.929736 -0.941856 -0.952842 -0.962686 -0.971383 -0.978928 -0.985318
+-0.990555 -0.994637 -0.997569 -0.999355 -1 -0.999513 -0.997902 -0.995178
+-0.991354 -0.986444 -0.980463 -0.973427 -0.965354 -0.956265 -0.946179
+-0.935118 -0.923106 -0.910167 -0.896326 -0.88161 -0.866045 -0.84966
+-0.832484 -0.814546 -0.795878 -0.77651 -0.756475 -0.735804 -0.71453
+-0.692687 -0.670308 -0.647427 -0.624077 -0.600294 -0.576111 -0.551563
+-0.526684 -0.501508 -0.476068 -0.4504 -0.424535 -0.398508 -0.372351
+-0.346097 -0.319776 -0.293421 -0.267062 -0.240728 -0.21445 -0.188255
+-0.162172 -0.136228 -0.110447 -0.0848568 -0.0594802 -0.0343408 -0.00946104
+0.0151378 0.0394354 0.0634124 0.0870507 0.110333 0.133244 0.155767
+0.17789 0.199599 0.220883 0.241732 0.262135 0.282084 0.301573 0.320595
+0.339144 0.357217 0.374811 0.391923 0.408552 0.424699 0.440363 0.455548
+0.470254 0.484486 0.498247 0.511543 0.52438 0.536763 0.5487 0.560198
+0.571266 0.581912 0.592145 0.601976 0.611414 0.620471 0.629155 0.637479
+0.645455 0.653092 0.660404 0.667401 0.674096 0.680499 0.686624 0.692482
+0.698083 0.70344 0.708564 0.713466 0.718156 0.722646 0.726944 0.731061
+0.735006 0.738788 0.742416 0.745897 0.74924 0.75245 0.755535 0.7585
+0.761351 0.764092 0.766728 0.769262 0.771696 0.774035 0.776277 0.778426
+0.780482 0.782443 0.78431 0.78608 0.787753 0.789324 0.790792 0.792151
+0.793399 0.794529 0.795537 0.796416 0.79716 0.797763 0.798217 0.798514
+0.798647 0.798607 0.798385 0.797973 0.797361 0.79654 0.7955 0.794232
+0.792725 0.790971 0.788958 0.786677 0.784117 0.78127 0.778125 0.774673
+0.770904 0.766809 0.762378 0.757604 0.752478 0.746991 0.741136 0.734906
+0.728293 0.721292 0.713896 0.7061 0.6979 0.68929 0.680267 0.670829
+0.660972 0.650694 0.639996 0.628875 0.617332 0.605369 0.592987 0.580187
+0.566974 0.553351 0.539321 0.524892 0.510068 0.494856 0.479263 0.463298
+0.446969 0.430285 0.413257 0.395896 0.378213 0.360219 0.341928 0.323352
+0.304505 0.285402 0.266057 0.246485 0.226703 0.206726 0.18657 0.166253
+0.145791 0.125202 0.104504 0.0837143 0.0628513 0.0419331 0.020978 4.53585e-06
+-0.020969 -0.041924 -0.0628422 -0.0837053 -0.104495 -0.125193 -0.145782
+-0.166244 -0.186561 -0.206717 -0.226694 -0.246477 -0.266048 -0.285394
+-0.304497 -0.323344 -0.34192 -0.360211 -0.378205 -0.395889 -0.41325
+-0.430278 -0.446962 -0.463291 -0.479256 -0.494849 -0.510061 -0.524886
+-0.539315 -0.553345 -0.566968 -0.580182 -0.592981 -0.605364 -0.617327
+-0.62887 -0.639991 -0.65069 -0.660967 -0.670824 -0.680263 -0.689286
+-0.697896 -0.706097 -0.713893 -0.721289 -0.72829 -0.734903 -0.741133
+-0.746988 -0.752475 -0.757602 -0.762376 -0.766807 -0.770902 -0.774671
+-0.778124 -0.781269 -0.784116 -0.786675 -0.788957 -0.79097 -0.792724
+-0.794231 -0.7955 -0.796539 -0.797361 -0.797973 -0.798385 -0.798607
+-0.798647 -0.798514 -0.798217 -0.797763 -0.79716 -0.796416 -0.795537
+-0.794529 -0.793399 -0.792152 -0.790792 -0.789325 -0.787753 -0.786081
+-0.784311 -0.782444 -0.780483 -0.778427 -0.776278 -0.774036 -0.771698
+-0.769263 -0.766729 -0.764093 -0.761352 -0.758501 -0.755536 -0.752451
+-0.749241 -0.745899 -0.742418 -0.73879 -0.735008 -0.731063 -0.726946
+-0.722647 -0.718158 -0.713468 -0.708566 -0.703443 -0.698086 -0.692484
+-0.686627 -0.680502 -0.674098 -0.667404 -0.660407 -0.653095 -0.645458
+-0.637483 -0.629159 -0.620474 -0.611418 -0.60198 -0.59215 -0.581916
+-0.57127 -0.560203 -0.548705 -0.536768 -0.524385 -0.511549 -0.498253
+-0.484492 -0.47026 -0.455554 -0.44037 -0.424706 -0.408559 -0.39193
+-0.374818 -0.357225 -0.339152 -0.320603 -0.301581 -0.282093 -0.262144
+-0.241741 -0.220892 -0.199609 -0.177899 -0.155777 -0.133253 -0.110343
+-0.0870609 -0.0634227 -0.0394458 -0.0151484 0.00945034 0.03433 0.0594692
+0.0848457 0.110436 0.136216 0.162161 0.188244 0.214438 0.240717 0.26705
+0.293409 0.319765 0.346085 0.37234 0.398497 0.424524 0.450389 0.476057
+0.501497 0.526673 0.551552 0.576101 0.600284 0.624067 0.647417 0.670298
+0.692677 0.714521 0.735795 0.756466 0.776502 0.79587 0.814538 0.832476
+0.849653 0.866038 0.881603 0.89632 0.910162 0.923101 0.935113 0.946174
+0.956261 0.965351 0.973423 0.98046 0.986442 0.991353 0.995177 0.997901
+0.999512 1 0.999355 0.99757 0.994639 0.990557 0.985321 0.978931 0.971386
+0.96269 0.952847 0.941861 0.929741 0.916496 0.902136 0.886675 0.870125
+0.852505 0.83383 0.81412 0.793397 0.771682 0.749 0.725376 0.700837
+0.675411 0.64913 0.622023 0.594123 0.565465 0.536083 0.506014 0.475295
+0.443965 0.412062 0.379627 0.346702 0.313328 0.279548 0.245406 0.210946
+0.176211 0.141248 0.106101 0.0708158 0.0354386 1.53228e-05 -0.035408
+;
+#X coords 0 1 515 -1 200 140 1;
+#X restore 1064 585 graph;
+#X obj 155 657 bandpass~;
+#X obj 42 566 r \$0-fdepth;
+#X obj 42 589 expr (1 - $f1);
+#X obj 148 615 *~;
+#X obj 27 630 *~;
+#X obj 142 822 *~ 0.2;
+#X msg 1131 66 1800;
+#X msg 34 52 0.5;
+#X floatatom 336 300 5 0 0 0 - - -, f 5;
+#N canvas 742 314 450 300 noisemaker 0;
+#X obj 122 116 osc~;
+#X obj 309 142 noise~;
+#X obj 147 168 expr~ $v2 * (abs($v1) + 0.1);
+#X obj 122 139 *~ 0.9;
+#X obj 122 87 / 3;
+#X obj 146 191 *~ 0.01;
+#X obj 121 54 r \$0-lfofreq;
+#X obj 152 239 outlet~ mixednoise;
+#X connect 0 0 3 0;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X connect 5 0 7 0;
+#X connect 6 0 4 0;
+#X restore 78 772 pd noisemaker;
+#X text 357 477 //give lfo 0.9 depth;
+#X text 9 450 //main synth;
+#X text 176 558 //mix synth w lfo;
+#X text 7 660 //unfiltered mix;
+#X text 176 671 //filtered mix;
+#N canvas 0 96 794 634 filteraliasing 0;
+#X obj 93 30 inlet~ signal;
+#X obj 94 392 outlet~ filteredsignal;
+#X obj 97 105 rpole~ 0.87467;
+#X obj 98 67 *~ 0.12532;
+#X obj 100 128 *~ 0.01668;
+#X obj 100 152 cpole~ 0.9293 0.10812;
+#X obj 98 189 cpole~ 0.9293 -0.10812;
+#X obj 98 218 rzero~ -1;
+#X obj 98 241 rzero~ -1;
+#X obj 98 264 rzero~ -1;
+#X text 304 90 //this adds some kind of weird filtering to cancel out
+//aliasing I guess or something don't ask me;
+#X connect 0 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 5 1 6 1;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 1 0;
+#X restore 302 766 pd filteraliasing;
+#X text 386 633 //plain sin wave to play a bit when the lfo cuts the
+main //synth;
+#X text -3 750 //add some lfoed noise;
+#X text 238 880 //add some 'verb;
+#X obj 190 329 catch~ output;
+#X obj 10 371 sig~;
+#X msg 717 62 400;
+#X obj 386 320 line;
+#X obj 385 288 pack f 200;
+#X obj 91 244 pack f 50;
+#X obj 754 727 f;
+#X obj 661 726 metro 50;
+#X obj 664 681 r cppinitialized;
+#X obj 119 507 *~ 0.2;
+#X obj 142 936 outlet~ sound;
+#X text 22 862 //some clean signal //goes thru though;
+#X text 538 927 //the "dirty" wave;
+#X text 908 909 //the "clean" wave;
+#X connect 0 0 1 1;
+#X connect 0 0 47 0;
+#X connect 1 0 55 0;
+#X connect 1 0 56 0;
+#X connect 2 0 8 0;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 5 0 48 0;
+#X connect 6 0 78 0;
+#X connect 7 0 77 1;
+#X connect 8 0 34 0;
+#X connect 9 0 21 0;
+#X connect 12 0 49 0;
+#X connect 13 0 58 0;
+#X connect 14 0 41 0;
+#X connect 15 0 73 0;
+#X connect 18 0 72 0;
+#X connect 19 0 16 0;
+#X connect 20 0 19 0;
+#X connect 21 0 37 0;
+#X connect 22 0 2 0;
+#X connect 22 0 9 0;
+#X connect 23 0 42 0;
+#X connect 24 0 27 0;
+#X connect 27 0 23 0;
+#X connect 28 0 29 0;
+#X connect 29 0 0 0;
+#X connect 30 0 76 0;
+#X connect 31 0 59 0;
+#X connect 33 0 34 1;
+#X connect 34 0 80 0;
+#X connect 35 0 36 0;
+#X connect 36 0 37 1;
+#X connect 37 0 80 0;
+#X connect 38 0 32 0;
+#X connect 41 0 40 0;
+#X connect 41 0 20 0;
+#X connect 42 0 60 0;
+#X connect 42 0 75 0;
+#X connect 45 0 47 1;
+#X connect 46 0 45 0;
+#X connect 47 0 57 0;
+#X connect 49 0 11 0;
+#X connect 49 0 39 0;
+#X connect 52 0 57 0;
+#X connect 53 0 54 0;
+#X connect 54 0 56 1;
+#X connect 55 0 52 0;
+#X connect 56 0 57 0;
+#X connect 57 0 81 0;
+#X connect 58 0 12 0;
+#X connect 59 0 30 0;
+#X connect 61 0 57 0;
+#X connect 72 0 8 0;
+#X connect 72 0 21 0;
+#X connect 73 0 14 0;
+#X connect 74 0 25 0;
+#X connect 75 0 74 0;
+#X connect 76 0 38 0;
+#X connect 77 0 78 1;
+#X connect 78 0 5 0;
+#X connect 78 0 77 0;
+#X connect 79 0 78 0;
+#X connect 80 0 1 0;
+#X restore 178 538 pd sam_synth;
+#X obj 1092 575 catch~ \$0-output;
+#N canvas 402 336 450 300 drone_synth 0;
+#X obj 131 222 outlet~;
+#X obj 97 84 osc~ 66;
+#X obj 126 147 expr~ $v1 * abs($v2);
+#X obj 20 27 vsl 15 128 30 150 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 131 199 *~ 0.6;
+#X obj 238 105 osc~ 0.2;
+#X connect 1 0 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 1 0;
+#X connect 4 0 0 0;
+#X connect 5 0 2 1;
+#X restore 359 538 pd drone_synth;
+#X obj 260 654 +~;
+#X obj 261 681 freezeverb 300;
+#X obj 376 622 hsl 128 15 0 0.98 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 204 333 mtof;
+#X floatatom 204 356 5 0 0 0 - - -, f 5;
+#X floatatom 203 288 5 0 0 0 - - -, f 5;
+#X text 263 297 //midi 67 or 391.995 Hz is Middle G //I want G Major
+scale;
+#X text 722 759 //arptest.pd;
+#X obj 532 878 dac~;
+#X obj 533 850 clip~ -1 1;
+#X obj 646 793 throw~ \$0-output;
+#X obj 514 743 *~ 0.1;
+#N canvas 146 382 1154 698 arp_synth 0;
+#X obj 338 382 simplesynth;
+#X text 423 382 taken from J09.classicsynth.pd;
+#X text 96 117 //clock;
+#X obj 338 420 outlet~ signal;
+#X text 31 22 //Apreggiator Synth //Modified from https://forum.pdpatchrepo.info/topic/3347/a-very-simple-arpeggiator
+;
+#X obj 93 142 metro 200;
+#X obj 302 265 f;
+#X obj 380 263 f;
+#X obj 454 261 f;
+#X obj 85 202 sel 0;
+#X obj 31 117 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 69 169 f 0;
+#X obj 154 167 expr ($f1 + 1) % 3;
+#X obj 153 201 sel 1;
+#X obj 240 203 sel 2;
+#X obj 352 109 inlet notes;
+#X obj 351 141 unpack f f f;
+#X obj 69 96 r cppinitialized;
+#X connect 0 0 3 0;
+#X connect 5 0 11 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 6 0;
+#X connect 10 0 5 0;
+#X connect 11 0 9 0;
+#X connect 11 0 12 0;
+#X connect 11 0 13 0;
+#X connect 11 0 14 0;
+#X connect 12 0 11 1;
+#X connect 13 0 7 0;
+#X connect 14 0 8 0;
+#X connect 15 0 16 0;
+#X connect 16 0 6 1;
+#X connect 16 1 7 1;
+#X connect 16 2 8 1;
+#X connect 17 0 5 0;
+#X restore 662 614 pd arp_synth;
+#X text 668 311 //we want range 55 - 79 //24 possible values means
+divide by 7.5 //then add 55;
+#X obj 564 451 / 7.5;
+#X obj 564 474 + 55;
+#X obj 677 474 / 7.5;
+#X obj 677 497 + 55;
+#X obj 820 472 / 7.5;
+#X obj 820 495 + 55;
+#X obj 564 497 change;
+#X obj 662 638 *~ 0.5;
+#X obj 662 584 pack f f f;
+#X obj 678 451 f;
+#X obj 820 450 f;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 12 0 43 0;
+#X connect 14 0 52 0;
+#X connect 15 0 53 0;
+#X connect 26 0 29 0;
+#X connect 27 0 1 0;
+#X connect 28 0 29 1;
+#X connect 29 0 30 0;
+#X connect 30 0 40 0;
+#X connect 31 0 30 1;
+#X connect 32 0 33 0;
+#X connect 34 0 32 0;
+#X connect 38 0 37 0;
+#X connect 38 0 37 1;
+#X connect 40 0 38 0;
+#X connect 40 0 39 0;
+#X connect 41 0 50 0;
+#X connect 43 0 44 0;
+#X connect 44 0 49 0;
+#X connect 45 0 46 0;
+#X connect 46 0 51 1;
+#X connect 47 0 48 0;
+#X connect 48 0 51 2;
+#X connect 49 0 51 0;
+#X connect 50 0 40 0;
+#X connect 51 0 41 0;
+#X connect 52 0 45 0;
+#X connect 53 0 47 0;

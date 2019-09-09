@@ -7,8 +7,11 @@
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "PdBase.hpp"
 #include "RtAudio.h"
+
+#include "PdObject.h"
 
 using namespace pd;
 using namespace std;
@@ -26,9 +29,13 @@ class Synth
      */
     Synth();
     
+    /**
+     * Start makin those sounds.
+     */
+    void playAudio();
 
     /**
-     * our pd engine
+     * our pd engine. Maybe not the best way to do this?
      */
 	static PdBase pd;
 
@@ -39,6 +46,11 @@ class Synth
      * The .pd patch for our synthesizer
      */
     Patch patch;
+
+    /**
+     * @@@for testing, to print messages from pd
+     */
+    PdObject pd_receiver;
 
     // two output channels
 	// block size 64, one tick per buffer
