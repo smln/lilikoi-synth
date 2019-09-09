@@ -13,7 +13,10 @@ void FancyDisplayCanvas::draw()
     cv::resize(small_canvas, temp, canvas.size(), 0, 0, INTER_NEAREST);
     this->add(temp);
     small_canvas = Mat::zeros(small_canvas.size(), CV_8UC3);
+    Size stemp = canvas.size();
+    resize(canvas, canvas, Size(1800, 1000), 0, 0, INTER_LINEAR);
     imshow(window_name, canvas);
+    resize(canvas, canvas, stemp, 0, 0, INTER_LINEAR);
 }
 
 void FancyDisplayCanvas::clearToNewImage(Mat& camimage)

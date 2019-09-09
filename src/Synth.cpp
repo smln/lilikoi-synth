@@ -38,8 +38,10 @@ Synth::Synth() :
 	// add the pd folder to the search path
 	pd.addToSearchPath("pd");
 
+   //@@@testing message stuff
+   pd.setReceiver(&pd_receiver);
 
-	patch = pd.openPatch("pd/reversesynth.pd", ".");
+	patch = pd.openPatch("pd/reversesynth8-14.pd", ".");
 
 	if(!patch.isValid()) //if the .pd patch couldn't open...
 	{

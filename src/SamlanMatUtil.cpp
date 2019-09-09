@@ -46,7 +46,7 @@ tuple<vector<int>, bool, bool, bool> getDominantColorsInImage(Mat& downsampledim
     else
     {
         //color is significant so we send 3 dominant hues
-        max_hues = getDominantHues(hsvsmall, LOW_SAT_THRESHOLD, LOW_VAL_THRESHOLD, 18);
+        max_hues = getDominantHues(hsvsmall, LOW_SAT_THRESHOLD, LOW_VAL_THRESHOLD, 24);
     }
 
     return {max_hues, is_mostly_black, is_mostly_white, is_mostly_gray};

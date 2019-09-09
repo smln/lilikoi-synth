@@ -119,9 +119,9 @@ int main(int argc, char const *argv[])
             canvas.makeColoredImageRectangle(max_hues);
 
             //send three dominant hues to PD, values range 0-180
-            Synth::pd.sendFloat("huemaxfromcpp", max_hues[0]);
-            Synth::pd.sendFloat("huesecondmaxfromcpp", max_hues[1]);
             Synth::pd.sendFloat("huethirdmaxfromcpp", max_hues[2]);
+            Synth::pd.sendFloat("huesecondmaxfromcpp", max_hues[1]);
+            Synth::pd.sendFloat("huemaxfromcpp", max_hues[0]);
         }
         //#################################################################
 
@@ -170,6 +170,9 @@ int main(int argc, char const *argv[])
         {
             break;
         }
+
+        //@@@for testing
+        Synth::pd.receiveMessages();
     }
     
     return 0;
