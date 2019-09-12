@@ -38,11 +38,10 @@ Synth::Synth() :
 	// add the pd folder to the search path
 	pd.addToSearchPath("pd");
 
-	// audio processing on
-	pd.computeAudio(true);
+   //@@@testing message stuff
+   pd.setReceiver(&pd_receiver);
 
-
-	patch = pd.openPatch("pd/synth.pd", ".");
+	patch = pd.openPatch("pd/reversesynth8-14.pd", ".");
 
 	if(!patch.isValid()) //if the .pd patch couldn't open...
 	{
@@ -57,43 +56,39 @@ Synth::Synth() :
    }
 
    RtAudio::StreamParameters parameters;
-   unsigned int defaud = audio.getDefaultOutputDevice();
-   cout << "Default audio device: " << defaud << endl;
-   cout << "audio device count: " << audio.getDeviceCount() << endl; 
-
-   for (size_t i = 0; i < audio.getDeviceCount(); i++)
-   {
-      cout << "Device " << i << " name: " << audio.getDeviceInfo(i).name << endl;
-   }
-   
-   parameters.deviceId = defaud;
+   parameters.deviceId = audio.getDefaultOutputDevice();;
    parameters.nChannels = 2;
 
    RtAudio::StreamOptions options;
-   options.streamName = "Reverse Visualizer Synth";
+   options.streamName = "Lilikoi";
    options.flags = RTAUDIO_SCHEDULE_REALTIME;
 
-   //audio callback lambda expression
-//    int audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData){
-
-//    // pass audio samples to/from libpd
-//    int ticks = nBufferFrames / 64;
-//    lpd.processFloat(ticks, (float *)inputBuffer, (float*)outputBuffer);
-
-//    return 0;
-// }
 
    if(audio.getCurrentApi() != RtAudio::MACOSX_CORE) {
       options.flags |= RTAUDIO_MINIMIZE_LATENCY; // CoreAudio doesn't seem to like this
    }
    try {
       audio.openStream( &parameters, NULL, RTAUDIO_FLOAT32, srate, &numbufferframes, &audioCallback, NULL, &options );
-      audio.startStream();
    }
    catch(RtAudioError& e) {
       std::cerr << e.getMessage() << std::endl;
       exit(1);
    }
+
+   
 }
-//This is WTF???
-//OK so this is a test of git idk
+
+void Synth::playAudio()
+{
+   // audio processing on
+   pd.computeAudio(true);
+
+   try {
+   audio.startStream();
+   }
+   catch(RtAudioError& e) {
+      std::cerr << e.getMessage() << std::endl;
+      exit(1);
+   }
+
+}
