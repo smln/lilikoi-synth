@@ -1,0 +1,7 @@
+Two octaves of C major on the piano (I think the 2nd and fourth octave)
+
+They have numeric names because it makes it easier to deal with in PD
+
+I got these samples from here: https://freesound.org/people/TEDAgame/packs/25405/?page=1#sound
+
+Thanks random internet dude!
