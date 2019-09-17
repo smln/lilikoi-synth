@@ -96,6 +96,9 @@ int main(int argc, char const *argv[])
         //yay for tuples
         auto [max_hues, is_mostly_black, is_mostly_white, saturation] = getDominantColorsInImage(downsampledim);
 
+        Synth::pd.sendFloat("saturationfromcpp", saturation);
+        // cout << saturation << endl;
+
         if(max_hues.empty()) //no significant color in image
         {
             if(is_mostly_black)
@@ -107,11 +110,6 @@ int main(int argc, char const *argv[])
             {
                 Synth::pd.sendBang("imagewhitefromcpp");
                 canvas.makeWhiteImageRectangle();
-            }
-            else if(is_mostly_gray)
-            {
-                Synth::pd.sendBang("imagegrayfromcpp");
-                canvas.makeGrayImageRectangle();
             }
         }
         else //color in image is significant
