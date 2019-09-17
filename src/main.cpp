@@ -16,7 +16,7 @@
 using namespace std;
 using namespace cv;
 
-const int fps = 24;
+const int fps = 24; //framerate
 
 const int LOW_CANNY_THRESHOLD = 30; //sensitivity of edge detector, can be like 10-100, around 30 or 40 was seeming to work best
 
@@ -94,7 +94,7 @@ int main(int argc, char const *argv[])
         //TASK 2: Detect and send hue if significant, if not send "gray" "light" or "dark" message
 
         //yay for tuples
-        auto [max_hues, is_mostly_black, is_mostly_white, is_mostly_gray] = getDominantColorsInImage(downsampledim);
+        auto [max_hues, is_mostly_black, is_mostly_white, saturation] = getDominantColorsInImage(downsampledim);
 
         if(max_hues.empty()) //no significant color in image
         {

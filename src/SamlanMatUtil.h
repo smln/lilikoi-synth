@@ -21,9 +21,9 @@ using namespace std;
  * Determine the dominant colors in an image, or if the image is too gray, white, or black to have significant color info, return that.
  * @param downsampledim The image to analyze, should be already downsampled for efficiency's sake
  * @return <1> max_hues (3 element vector containing 3 most dominant hues, empty vector if image color is not significant), 
- *              <2> is_mostly_black, <3> is_mostly_white, <4> is_mostly_gray
+ *              <2> is_mostly_black, <3> is_mostly_white, <4> saturation
  */
-tuple<vector<int>, bool, bool, bool> getDominantColorsInImage(Mat& downsampledim);
+tuple<vector<int>, bool, bool, float> getDominantColorsInImage(Mat& downsampledim);
 
 
 /**

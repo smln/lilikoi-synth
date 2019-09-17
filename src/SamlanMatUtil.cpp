@@ -1,9 +1,9 @@
 #include "SamlanMatUtil.h"
 
-tuple<vector<int>, bool, bool, bool> getDominantColorsInImage(Mat& downsampledim)
+tuple<vector<int>, bool, bool, float> getDominantColorsInImage(Mat& downsampledim)
 {
     vector<int> max_hues;
-    bool is_mostly_black = false, is_mostly_gray = false, is_mostly_white = false; //return values
+    bool is_mostly_black = false, is_mostly_white = false; //return values
 
     const int LOW_SAT_THRESHOLD = 50; //threshold of image saturation (GRAY) at which hue detection will stop/start (S and V can range 0-255)
     const int LOW_VAL_THRESHOLD = 80; //threshold of image value(BLACK) at which hue detection will stop/start
@@ -29,27 +29,15 @@ tuple<vector<int>, bool, bool, bool> getDominantColorsInImage(Mat& downsampledim
         //image is black
         is_mostly_black = true;
     }
-    else if(satmean < LOW_SAT_THRESHOLD)
+    else if(valuemean > HI_VAL_THRESHOLD)
     {
-        if(valuemean > HI_VAL_THRESHOLD)
-        {
-            //image is white
-            is_mostly_white = true;
-        }
-        else
-        {
-            //image is gray
-            is_mostly_gray = true;
-        }
-        
-    }
-    else
-    {
-        //color is significant so we send 3 dominant hues
-        max_hues = getDominantHues(hsvsmall, LOW_SAT_THRESHOLD, LOW_VAL_THRESHOLD, 14);
+        //image is white
+        is_mostly_white = true;
     }
 
-    return {max_hues, is_mostly_black, is_mostly_white, is_mostly_gray};
+    max_hues = getDominantHues(hsvsmall, LOW_SAT_THRESHOLD, LOW_VAL_THRESHOLD, 14);
+
+    return {max_hues, is_mostly_black, is_mostly_white, satmean};
 }
 
 

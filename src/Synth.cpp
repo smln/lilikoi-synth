@@ -41,7 +41,7 @@ Synth::Synth() :
    //@@@testing message stuff
    pd.setReceiver(&pd_receiver);
 
-	patch = pd.openPatch("pd/reversesynth8-14.pd", ".");
+	patch = pd.openPatch("pd/reversesynth.pd", ".");
 
 	if(!patch.isValid()) //if the .pd patch couldn't open...
 	{
