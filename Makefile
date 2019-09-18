@@ -18,7 +18,9 @@ LIBPD = $(LIBPD_DIR)/libs/libpd.so
 
 LDLIBS = $(shell pkg-config --libs opencv) $(LIBPD)
 
-CXXFLAGS = -Wall 
+COMPILEFLAGS = #add -pg to this and CXXFLAGS to use gprof profiling
+
+CXXFLAGS = -Wall
 CXXFLAGS += $(shell pkg-config --cflags opencv)
 CXXFLAGS += -I$(LIBPD_DIR)/pure-data/src -I$(LIBPD_DIR)/libpd_wrapper \
             -I$(LIBPD_DIR)/libpd_wrapper/util -I$(LIBPD_DIR)/cpp -I./src -O3
@@ -36,7 +38,7 @@ default: all
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(LDLIBS) $(AUDIO_API)
+	$(CXX) -o $(TARGET) $(OBJS) $(COMPILEFLAGS) $(LDLIBS) $(AUDIO_API)
 	#$@ means the target (in this case, $(TARGET) )
 
 # Include all .d files

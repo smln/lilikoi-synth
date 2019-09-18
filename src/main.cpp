@@ -97,8 +97,8 @@ int main(int argc, char const *argv[])
         auto [max_hues, is_mostly_black, is_mostly_white, saturation] = getDominantColorsInImage(downsampledim);
 
         Synth::pd.sendFloat("saturationfromcpp", saturation);
-        // cout << saturation << endl;
-
+        cout << saturation << endl;
+        
         if(max_hues.empty()) //no significant color in image
         {
             if(is_mostly_black)

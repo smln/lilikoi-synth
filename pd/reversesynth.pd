@@ -1,21 +1,21 @@
 #N canvas 0 96 1920 984 10;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array waveout 100 float 3;
-#A 0 -0.185576 -0.184816 -0.18381 -0.18383 -0.18556 -0.189068 -0.193915
--0.199307 -0.204401 -0.208688 -0.212047 -0.214435 -0.215786 -0.216281
--0.216503 -0.217105 -0.218389 -0.220309 -0.222694 -0.225261 -0.227406
--0.228501 -0.228623 -0.228735 -0.229913 -0.232454 -0.235858 -0.2395
--0.243104 -0.246433 -0.248764 -0.249178 -0.247566 -0.245095 -0.243378
--0.243358 -0.245072 -0.248015 -0.25138 -0.254207 -0.255738 -0.255698
--0.254338 -0.252431 -0.251029 -0.250821 -0.251574 -0.252422 -0.252695
--0.2524 -0.252008 -0.251983 -0.252544 -0.253636 -0.254966 -0.256103
--0.256609 -0.256113 -0.254357 -0.251442 -0.248023 -0.245132 -0.243662
--0.24386 -0.245224 -0.24683 -0.247834 -0.247682 -0.246079 -0.243026
--0.238978 -0.234859 -0.231726 -0.230256 -0.230376 -0.231349 -0.232266
--0.232457 -0.231533 -0.229346 -0.226129 -0.222474 -0.219005 -0.216157
--0.214103 -0.21261 -0.211049 -0.208905 -0.206298 -0.2038 -0.201802
--0.200249 -0.198952 -0.197778 -0.196432 -0.194291 -0.190667 -0.185328
--0.178859 -0.172592;
+#A 0 0.0285528 0.0233306 0.0177594 0.0121549 0.00679289 0.00181849
+-0.00278469 -0.00714563 -0.0114079 -0.0156522 -0.0198868 -0.0240892
+-0.0282452 -0.0323546 -0.0364219 -0.0404614 -0.0445188 -0.0486806 -0.0530466
+-0.0576806 -0.0625739 -0.0676479 -0.0727806 -0.0778275 -0.0826258 -0.0870048
+-0.0908335 -0.0941034 -0.0969961 -0.0998684 -0.10313 -0.107072 -0.111751
+-0.116997 -0.122507 -0.127953 -0.133042 -0.137555 -0.141373 -0.144506
+-0.147086 -0.149355 -0.151612 -0.154169 -0.15728 -0.161083 -0.165562
+-0.170537 -0.175712 -0.180753 -0.185375 -0.189394 -0.192735 -0.195415
+-0.197511 -0.199169 -0.200612 -0.202134 -0.204054 -0.206639 -0.210028
+-0.214175 -0.218826 -0.223549 -0.227859 -0.231394 -0.234062 -0.236034
+-0.237628 -0.239148 -0.240793 -0.242644 -0.244695 -0.246881 -0.249096
+-0.251223 -0.253175 -0.254941 -0.256597 -0.25827 -0.260052 -0.26194
+-0.263838 -0.265634 -0.267271 -0.268771 -0.270198 -0.271599 -0.272978
+-0.274302 -0.275539 -0.276689 -0.277773 -0.27878 -0.279624 -0.280179
+-0.280377 -0.280301 -0.28018 -0.28027;
 #X coords 0 1 100 -1 200 140 1 0 0;
 #X restore 1090 398 graph;
 #X obj 1200 637 tabwrite~ waveout;
@@ -116,9 +116,9 @@ once;
 #X obj 204 333 mtof;
 #X floatatom 204 356 5 0 0 0 - - -, f 5;
 #X floatatom 203 288 5 0 0 0 - - -, f 5;
-#X obj 532 878 dac~;
-#X obj 533 850 clip~ -1 1;
-#X obj 646 793 throw~ \$0-output;
+#X obj 535 930 dac~;
+#X obj 536 902 clip~ -1 1;
+#X obj 651 912 throw~ \$0-output;
 #X obj 514 743 *~ 0.1;
 #X text 668 311 //we want range 55 - 79 //24 possible values means
 divide by 7.5 //then add 55;
@@ -474,11 +474,11 @@ we need to call it significant;
 #X connect 48 0 51 0;
 #X connect 49 0 47 0;
 #X connect 50 0 48 0;
-#X restore 852 579 pd watersounds;
-#X obj 843 681 *~;
-#X obj 903 608 r sceneobjectmovementfromcpp;
-#X obj 903 631 moses 0;
-#X obj 944 658 expr min(($f1*2) + 0.15 \, 1);
+#X restore 849 534 pd watersounds;
+#X obj 840 636 *~;
+#X obj 900 563 r sceneobjectmovementfromcpp;
+#X obj 900 586 moses 0;
+#X obj 941 613 expr min(($f1*2) + 0.15 \, 1);
 #X text 931 169 //detect significant camera movements;
 #N canvas 478 232 603 447 meowsound 0;
 #X obj 160 291 outlet~ meowwwww;
@@ -511,6 +511,52 @@ we need to call it significant;
 #X text 225 740 //@@@todo volume affected by contours?;
 #X obj 736 67 r saturationfromcpp;
 #X text 744 42 //mean saturation 0-255;
+#X obj 1167 832 switch~;
+#X obj 1174 790 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+1 1;
+#X obj 1178 763 loadbang, f 9;
+#N canvas 0 96 1920 984 saturation_filter 1;
+#X obj 366 286 lowpass~;
+#X obj 356 138 r saturationfromcpp;
+#X obj 243 341 +~;
+#X obj 366 309 /~ 2;
+#X obj 218 276 lowpass~;
+#X obj 298 71 inlet~;
+#X obj 259 439 outlet~;
+#X text 401 80 //add some filtering based on image saturation to make
+it sound muffled when things are grey...;
+#X obj 216 302 /~ 2;
+#X obj 201 197 expr pow($f1 \, 2) * 2, f 24;
+#X obj 201 245 line 1000;
+#X msg 518 228 \$1 500;
+#X obj 518 252 line 1;
+#X text 435 229 //freq;
+#X text 576 234 //q;
+#X text 460 296 //more filtered mix;
+#X text 88 292 //less filtered mix;
+#X obj 385 256 line 1000;
+#X msg 385 232 \$1 250;
+#X msg 201 220 \$1 250;
+#X obj 378 192 expr pow($f1 - 50 \, 2) \; $f1 / 32, f 24;
+#X connect 0 0 3 0;
+#X connect 1 0 9 0;
+#X connect 1 0 20 0;
+#X connect 2 0 6 0;
+#X connect 3 0 2 1;
+#X connect 4 0 8 0;
+#X connect 5 0 0 0;
+#X connect 5 0 4 0;
+#X connect 8 0 2 0;
+#X connect 9 0 19 0;
+#X connect 10 0 4 1;
+#X connect 11 0 12 0;
+#X connect 12 0 0 2;
+#X connect 17 0 0 1;
+#X connect 18 0 17 0;
+#X connect 19 0 10 0;
+#X connect 20 0 18 0;
+#X connect 20 1 11 0;
+#X restore 514 819 pd saturation_filter;
 #X connect 2 0 1 0;
 #X connect 3 0 2 0;
 #X connect 8 0 41 0;
@@ -522,8 +568,7 @@ we need to call it significant;
 #X connect 26 0 24 0;
 #X connect 28 0 27 0;
 #X connect 28 0 27 1;
-#X connect 30 0 29 0;
-#X connect 30 0 28 0;
+#X connect 30 0 70 0;
 #X connect 32 0 45 0;
 #X connect 33 0 42 0;
 #X connect 34 0 43 0;
@@ -545,3 +590,7 @@ we need to call it significant;
 #X connect 60 0 30 0;
 #X connect 61 0 63 0;
 #X connect 63 0 62 1;
+#X connect 68 0 67 0;
+#X connect 69 0 68 0;
+#X connect 70 0 28 0;
+#X connect 70 0 29 0;
