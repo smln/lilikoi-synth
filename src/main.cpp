@@ -99,29 +99,25 @@ int main(int argc, char const *argv[])
 
         Synth::pd.sendFloat("saturationfromcpp", saturation);
         
-        if(max_hues.empty()) //no significant color in image
+        if(is_mostly_black)
         {
-            if(is_mostly_black)
-            {
-                Synth::pd.sendBang("imagedarkfromcpp");
-                canvas.makeBlackImageRectangle();
-            }
-            else if(is_mostly_white)
-            {
-                Synth::pd.sendBang("imagewhitefromcpp");
-                canvas.makeWhiteImageRectangle();
-            }
+            Synth::pd.sendBang("imagedarkfromcpp");
+            canvas.makeBlackImageRectangle();
+        }
+        else if(is_mostly_white)
+        {
+            Synth::pd.sendBang("imagewhitefromcpp");
+            canvas.makeWhiteImageRectangle();
         }
         else //color in image is significant
         {
             canvas.makeColoredImageRectangle(max_hues);
-
-            //send three dominant hues to PD, values range 0-180
-
-            Synth::pd.sendFloat("huethirdmaxfromcpp", max_hues[2]);
-            Synth::pd.sendFloat("huesecondmaxfromcpp", max_hues[1]);
-            Synth::pd.sendFloat("huemaxfromcpp", max_hues[0]);
         }
+
+        //send three dominant hues to PD, values range 0-180
+        Synth::pd.sendFloat("huethirdmaxfromcpp", max_hues[2]);
+        Synth::pd.sendFloat("huesecondmaxfromcpp", max_hues[1]);
+        Synth::pd.sendFloat("huemaxfromcpp", max_hues[0]);
         //#################################################################
 
 
