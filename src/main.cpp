@@ -93,11 +93,11 @@ int main(int argc, char const *argv[])
         //################################################################
         //TASK 2: Detect and send hue if significant, if not send "gray" "light" or "dark" message
 
+
         //yay for tuples
         auto [max_hues, is_mostly_black, is_mostly_white, saturation] = getDominantColorsInImage(downsampledim);
 
         Synth::pd.sendFloat("saturationfromcpp", saturation);
-        cout << saturation << endl;
         
         if(max_hues.empty()) //no significant color in image
         {
