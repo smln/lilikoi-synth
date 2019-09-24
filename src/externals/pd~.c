@@ -101,7 +101,7 @@ static const char*pd_tilde_dllextent[] = {
     0};
 
 #define FOOFOO
-#include "binarymsg.c"
+// #include "binarymsg.c" //@@@I commented this out... will this break something?
 
 /* ------------------------ pd_tilde~ ----------------------------- */
 
