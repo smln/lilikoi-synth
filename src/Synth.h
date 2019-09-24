@@ -12,6 +12,7 @@
 #include "RtAudio.h"
 
 #include "PdObject.h"
+#include "externals/Externals.h"
 
 using namespace pd;
 using namespace std;

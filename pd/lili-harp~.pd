@@ -1,23 +1,19 @@
 #N canvas 0 96 1920 984 10;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array waveout 100 float 3;
-#A 0 0.00301029 0.00296999 0.00289992 0.0027795 0.00257361 0.00227537
-0.00195286 0.00173218 0.00170448 0.00182734 0.00193014 0.00184744 0.00155736
-0.00118794 0.00090406 0.000801629 0.000886791 0.00110989 0.00139235
-0.0016257 0.0016729 0.00141469 0.000835698 8.29903e-05 -0.000568267
--0.000842546 -0.000620328 -2.71803e-05 0.000618125 0.000980142 0.000891349
-0.00041553 -0.000239513 -0.000867676 -0.00135292 -0.00167321 -0.00186841
--0.00200028 -0.00209825 -0.002117 -0.00196063 -0.00156944 -0.00098776
--0.000353281 0.000158785 0.000368115 9.8764e-05 -0.000766548 -0.00216563
--0.00376793 -0.00504711 -0.00551347 -0.00495267 -0.00352406 -0.00170032
--0.000102275 0.000730013 0.000558702 -0.000471096 -0.00196341 -0.00350719
--0.00482353 -0.00575429 -0.00619187 -0.00607204 -0.00543514 -0.00446984
--0.00348038 -0.00278955 -0.0026163 -0.00297439 -0.00365756 -0.00434632
--0.00477206 -0.00482095 -0.00453236 -0.00404031 -0.00351709 -0.00314142
--0.00308361 -0.00347416 -0.00432537 -0.00544896 -0.00647971 -0.00704981
--0.00699786 -0.00644209 -0.0056766 -0.00500425 -0.00462454 -0.0045955
--0.00484109 -0.00520206 -0.00552014 -0.00569476 -0.00567446 -0.0054381
--0.00503495 -0.00464359 -0.00453864;
+#A 0 0.1025 0.103681 0.104915 0.106213 0.107545 0.108867 0.11016 0.111432
+0.112681 0.113881 0.115006 0.116063 0.117075 0.118057 0.119005 0.119917
+0.120801 0.121655 0.122453 0.123157 0.123762 0.124307 0.124846 0.125409
+0.125992 0.126584 0.127195 0.127843 0.128531 0.129227 0.129875 0.130423
+0.130837 0.131103 0.131243 0.131313 0.131385 0.131514 0.131716 0.131973
+0.132247 0.132489 0.132646 0.132659 0.132485 0.132122 0.131623 0.131091
+0.130632 0.130309 0.130118 0.130004 0.129902 0.129768 0.12959 0.129376
+0.129121 0.128783 0.128298 0.127619 0.12676 0.125792 0.124814 0.123904
+0.123094 0.122367 0.121681 0.120993 0.120279 0.11953 0.118744 0.117905
+0.11697 0.115893 0.114657 0.113304 0.111924 0.110615 0.109433 0.108373
+0.107375 0.106342 0.105191 0.103887 0.102434 0.100848 0.0991472 0.0973826
+0.0956433 0.0940259 0.0925763 0.0912683 0.0900315 0.0887911 0.0874834
+0.0860562 0.0844787 0.082755 0.0809221 0.0790288;
 #X coords 0 1 100 -1 200 140 1 0 0;
 #X restore 1113 373 graph;
 #X obj 1200 637 tabwrite~ waveout;
@@ -656,34 +652,149 @@ it sound muffled when things are grey...;
 #X restore 514 819 pd saturation_filter;
 #X text 276 266 //65.41 hz is low C;
 #X text 278 329 60 - C 62 - D 64 - E 65 - F 67 - G 69 - A 71 - B;
-#N canvas 0 96 960 984 harp 0;
-#X obj 618 294 loadbang;
-#X obj 720 411 outlet~;
-#X obj 94 152 r pianotrigger;
-#X obj 204 149 r modechange;
-#X msg 204 172 modechange \$1;
-#X msg 94 175 pianotrigger \$1;
-#X obj 316 149 r huemaxfromcpp;
-#X obj 430 150 r huesecondmaxfromcpp;
-#X obj 573 151 r huethirdmaxfromcpp;
-#X msg 316 172 huemaxfromcpp \$1;
-#X msg 430 173 huesecondmaxfromcpp \$1;
-#X msg 573 174 huethirdmaxfromcpp \$1;
-#X msg 619 322 pd~ start sub-harp_lilikoi~.pd;
-#X obj 577 370 pd~ -ninsig 0 -noutsig 1;
-#X connect 0 0 12 0;
-#X connect 2 0 5 0;
-#X connect 3 0 4 0;
-#X connect 4 0 13 0;
-#X connect 5 0 13 0;
-#X connect 6 0 9 0;
-#X connect 7 0 10 0;
-#X connect 8 0 11 0;
-#X connect 9 0 13 0;
-#X connect 10 0 13 0;
-#X connect 11 0 13 0;
-#X connect 12 0 13 0;
-#X connect 13 1 1 0;
+#N canvas 0 96 960 984 harp 1;
+#X obj 429 755 outlet~;
+#X obj 385 226 harp~-help;
+#X obj 386 199 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 384 63 r pianotrigger;
+#X obj 410 168 delay 1300;
+#X msg 384 86 bang;
+#X obj 383 261 *~ 4;
+#X obj 383 113 delay 999;
+#X obj 381 137 delay 999;
+#X text 462 122 //use 2 delays to avoid getting triggered twice within
+1 second;
+#X text 276 144 //turn on;
+#X text 495 174 //turn off;
+#X text 45 495 //@@@maybe add FM synthesis to change frequency of harp
+based on hues?;
+#X obj 294 351 delwrite~ harp_delay 1600;
+#X obj 417 435 *~ 0.6;
+#X obj 494 361 line 2000;
+#X msg 566 278 set 2000;
+#X msg 486 286 0 5000;
+#X obj 416 400 delread~ harp_delay 1600;
+#X obj 596 470 r modechange;
+#X msg 600 529 bang;
+#X obj 596 493 route 0 1 2 3;
+#X obj 600 559 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 688 527 loadbang;
+#X obj 426 650 *~ 1;
+#X obj 600 605 line 1;
+#X msg 600 582 \$1 4000;
+#N canvas 0 96 1920 984 pitchshifter 0;
+#X obj 74 79 biquad~ 0.83774 -0.06338 0.06338 -0.83774 1;
+#X obj 74 53 biquad~ 1.94632 -0.94657 0.94657 -1.94632 1;
+#X obj 55 136 biquad~ -0.02569 0.260502 -0.260502 0.02569 1;
+#X obj 55 162 biquad~ 1.8685 -0.870686 0.870686 -1.8685 1;
+#X obj 55 26 inlet~;
+#X obj 471 26 inlet;
+#X text 430 0 bang to clear;
+#X text 49 3 signal in;
+#X msg 471 99 clear;
+#X obj 277 569 cos~;
+#X obj 313 547 +~ -0.25;
+#X obj 313 569 cos~;
+#X obj 74 642 *~;
+#X obj 157 643 *~;
+#X obj 74 678 -~;
+#X obj 152 791 outlet~;
+#X obj 222 792 outlet~;
+#X obj 144 679 +~;
+#X text 150 817 positive;
+#X text 223 818 negative;
+#X obj 277 517 phasor~;
+#X obj 297 384 r huesecondmaxfromcpp;
+#X obj 190 389 r huemaxfromcpp;
+#X obj 436 394 r huethirdmaxfromcpp;
+#X obj 305 220 loadbang;
+#X obj 307 275 f 0;
+#X obj 320 296 expr ($f1 + 1) % 3;
+#X obj 190 419 f;
+#X obj 295 412 f;
+#X obj 436 422 f;
+#X obj 307 339 sel 0 1 2;
+#X obj 276 463 - 70;
+#X text 612 399 //arpeggiate different pitches based on hues;
+#X obj 305 243 metro 62.5;
+#X obj 276 486 * 3;
+#X connect 0 0 13 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 12 0;
+#X connect 4 0 1 0;
+#X connect 4 0 2 0;
+#X connect 4 0 15 0;
+#X connect 4 0 16 0;
+#X connect 5 0 8 0;
+#X connect 8 0 1 0;
+#X connect 8 0 0 0;
+#X connect 8 0 2 0;
+#X connect 8 0 3 0;
+#X connect 9 0 12 1;
+#X connect 10 0 11 0;
+#X connect 11 0 13 1;
+#X connect 12 0 14 0;
+#X connect 12 0 17 0;
+#X connect 13 0 14 1;
+#X connect 13 0 17 1;
+#X connect 14 0 15 0;
+#X connect 17 0 16 0;
+#X connect 20 0 10 0;
+#X connect 20 0 9 0;
+#X connect 21 0 28 1;
+#X connect 22 0 27 1;
+#X connect 23 0 29 1;
+#X connect 24 0 33 0;
+#X connect 25 0 26 0;
+#X connect 25 0 30 0;
+#X connect 26 0 25 1;
+#X connect 27 0 31 0;
+#X connect 28 0 31 0;
+#X connect 29 0 31 0;
+#X connect 30 0 27 0;
+#X connect 30 1 28 0;
+#X connect 30 2 29 0;
+#X connect 31 0 34 0;
+#X connect 33 0 25 0;
+#X connect 34 0 20 0;
+#X restore 424 513 pd pitchshifter;
+#X text 694 504 //mode change stuff;
+#X obj 439 558 lpf~;
+#X connect 1 0 6 0;
+#X connect 2 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 2 0;
+#X connect 5 0 7 0;
+#X connect 5 0 16 0;
+#X connect 6 0 13 0;
+#X connect 6 0 24 0;
+#X connect 7 0 8 0;
+#X connect 8 0 2 0;
+#X connect 8 0 4 0;
+#X connect 8 0 17 0;
+#X connect 14 0 13 0;
+#X connect 14 0 27 0;
+#X connect 15 0 29 1;
+#X connect 16 0 15 0;
+#X connect 17 0 15 0;
+#X connect 18 0 14 0;
+#X connect 19 0 21 0;
+#X connect 20 0 22 0;
+#X connect 21 0 20 0;
+#X connect 21 1 20 0;
+#X connect 21 2 20 0;
+#X connect 21 3 20 0;
+#X connect 22 0 26 0;
+#X connect 23 0 22 0;
+#X connect 24 0 0 0;
+#X connect 25 0 24 1;
+#X connect 26 0 25 0;
+#X connect 27 0 29 0;
+#X connect 27 1 29 0;
+#X connect 29 0 24 0;
 #X restore 421 524 pd harp;
 #N canvas 0 96 1920 984 movement_delay_mixer 0;
 #X obj 560 33 inlet~;
