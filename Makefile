@@ -5,7 +5,7 @@ BIN_PATH = bin
 
 
 SRCS = $(shell find $(SRC_PATH) -name '*.cpp')
-EXT_FILES = src/externals/pd~.c   #need to compile the external pd~.c for multithreadig
+#EXT_FILES = src/externals/pd~.c   #need to compile the external pd~.c for multithreadig
 
 CXX = g++ #c++ compiler to use
 TARGET = $(BIN_PATH)/Lilikoi # name of output executable file
@@ -13,7 +13,7 @@ TARGET = $(BIN_PATH)/Lilikoi # name of output executable file
 # Set the object file names, with the source directory stripped
 # from the path, and the build path prepended in its place
 OBJS = $(SRCS:$(SRC_PATH)/%.cpp=$(BUILD_PATH)/%.o)
-OBJS += obj/pd~.o
+#OBJS += obj/pd~.o
 
 LIBPD_DIR = /home/samlan/libpd
 LIBPD = $(LIBPD_DIR)/libs/libpd.so
@@ -47,8 +47,8 @@ $(TARGET): $(OBJS)
 # Include all .d files
 -include $(DEP)
 
-obj/pd~.o: $(EXT_FILES)
-	gcc $(CFLAGS) -MMD -c -o $(BUILD_PATH)/pd~.o src/externals/pd~.c
+#obj/pd~.o: $(EXT_FILES)
+#	gcc $(CFLAGS) -MMD -c -o $(BUILD_PATH)/pd~.o src/externals/pd~.c
 
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.cpp
 	mkdir -p $(@D)

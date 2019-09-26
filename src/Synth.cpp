@@ -35,8 +35,6 @@ Synth::Synth() :
 		exit(1);
 	}
 
-   pd_tilde_setup();
-
 	// add the pd folder to the search path
 	pd.addToSearchPath("pd");
 
