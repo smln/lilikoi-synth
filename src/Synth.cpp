@@ -21,7 +21,6 @@ Synth::Synth() :
                 numbufferframes(128),
                 audio()
 {
-
 	// init pd
 	//
 	// set 4th arg to true for queued message passing using an internal ringbuffer
@@ -35,6 +34,7 @@ Synth::Synth() :
 		exit(1);
 	}
 
+
 	// add the pd folder to the search path
 	pd.addToSearchPath("pd");
 
@@ -42,6 +42,8 @@ Synth::Synth() :
    pd.setReceiver(&pd_receiver);
 
 	patch = pd.openPatch("pd/lilikoi.pd", ".");
+
+   pd_tilde_setup();
 
 	if(!patch.isValid()) //if the .pd patch couldn't open...
 	{
