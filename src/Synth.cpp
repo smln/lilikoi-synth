@@ -41,9 +41,9 @@ Synth::Synth() :
    //@@@testing message stuff
    pd.setReceiver(&pd_receiver);
 
-	patch = pd.openPatch("pd/lilikoi.pd", ".");
-
    pd_tilde_setup();
+
+	patch = pd.openPatch("pd/lilikoi.pd", ".");
 
 	if(!patch.isValid()) //if the .pd patch couldn't open...
 	{

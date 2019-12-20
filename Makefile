@@ -18,7 +18,7 @@ OBJS = $(SRCS:$(SRC_PATH)/%.cpp=$(BUILD_PATH)/%.o)
 OBJS += $(EXT_SRCS:$(EXT_PATH)/%.c=$(EXT_PATH)/%.o)
 
 LIBPD_DIR = /home/samlan/libpd
-LIBPD = $(LIBPD_DIR)/libs/libpd.so
+LIBPD = $(LIBPD_DIR)/libpd.so
 
 LDLIBS = $(shell pkg-config --libs opencv) $(LIBPD)
 
